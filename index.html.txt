@@ -422,7 +422,7 @@ html, body { height: 100%; background: var(--gray-50); font-family: var(--font);
 <script>
 // ── CONFIG ──────────────────────────────────────────────────────────────
 // Cole aqui a URL do seu Google Apps Script após publicar
-const SHEETS_URL = https://script.google.com/macros/s/AKfycby7zfmlK_uKQbH_8JQ1Rz30H56BUIrh6onJtLZenng6hClkP7dMsUpzA3pYLfzVw6XpDA/exec;
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycby7zfmlK_uKQbH_8JQ1Rz30H56BUIrh6onJtLZenng6hClkP7dMsUpzA3pYLfzVw6XpDA/exec';
 // ────────────────────────────────────────────────────────────────────────
 
 var lancamentos = [];
@@ -546,7 +546,7 @@ async function salvar() {
   updateDash();
 
   // Enviar para Google Sheets
-  if (SHEETS_URL && SHEETS_URL !== 'COLE_AQUI_A_URL_DO_APPS_SCRIPT') {
+  if (SHEETS_URL && SHEETS_URL !== 'https://script.google.com/macros/s/AKfycby7zfmlK_uKQbH_8JQ1Rz30H56BUIrh6onJtLZenng6hClkP7dMsUpzA3pYLfzVw6XpDA/exec') {
     document.getElementById('loading').classList.add('show');
     try {
       await fetch(SHEETS_URL, {
