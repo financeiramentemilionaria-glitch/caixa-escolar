@@ -132,7 +132,7 @@ html, body { height: 100%; background: var(--gray-50); font-family: var(--font);
 .chip.sel-r { background: var(--red-light); border-color: var(--red); color: var(--red-dark); }
 .chip.sel-b { background: var(--blue-light); border-color: var(--blue); color: var(--blue-dark); }
 
-.form-footer { padding: 16px 20px 32px; border-top: 1px solid var(--gray-100); }
+.form-footer { padding: 16px 20px 32px; border-top: 1px solid var(--gray-100); position: sticky; bottom: 0; background: var(--white); z-index: 10; }
 .btn-save { width: 100%; padding: 16px; border: none; border-radius: var(--radius); font-family: var(--font); font-size: 17px; font-weight: 600; cursor: pointer; transition: opacity 0.2s, transform 0.1s; }
 .btn-save:active { opacity: 0.85; transform: scale(0.98); }
 .btn-save-g { background: var(--green); color: var(--white); }
@@ -545,16 +545,12 @@ async function salvar() {
   lancamentos.push(entry);
   updateDash();
 
-  // Enviar para Google Sheets
-  if (SHEETS_URL && SHEETS_URL !== 'https://script.google.com/macros/s/AKfycby7zfmlK_uKQbH_8JQ1Rz30H56BUIrh6onJtLZenng6hClkP7dMsUpzA3pYLfzVw6XpDA/exec') {
+  // Enviar para Google Sheets via GET (resolve problema de CORS)
+  if (SHEETS_URL) {
     document.getElementById('loading').classList.add('show');
     try {
-      await fetch(SHEETS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(entry)
-      });
+      const params = new URLSearchParams({ data: JSON.stringify(entry) });
+      await fetch(SHEETS_URL + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
       document.getElementById('sync-status').textContent = 'Sincronizado agora mesmo';
     } catch(e) {
       console.warn('Sheets sync failed:', e);
